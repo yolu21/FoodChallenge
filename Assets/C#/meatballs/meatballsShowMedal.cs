@@ -21,17 +21,20 @@ public class meatballsShowMedal : MonoBehaviour
     private void ShowMedal(float totalTime)
     {
         HideAllMedals();
-        if (totalTime < 30)
+        if (MedalManager.GamePass == true)
         {
-            goldMedal.SetActive(true);
-        }
-        else if (totalTime < 60)
-        {
-            silverMedal.SetActive(true);
-        }
-        else
-        {
-            bronzeMedal.SetActive(true);
+            if (totalTime < 30)
+            {
+                goldMedal.SetActive(true);
+            }
+            else if (totalTime < 60)
+            {
+                silverMedal.SetActive(true);
+            }
+            else
+            {
+                bronzeMedal.SetActive(true);
+            }
         }
     }
 

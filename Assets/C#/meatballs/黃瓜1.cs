@@ -17,15 +17,12 @@ public class 黃瓜1 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float addTime = 10f;
     float waitingTime = 2f;
-    public GameObject warning;
 
     // Start is called before the first frame update
     void Start()
     {
         questions = new List<Question>();
-        warning.SetActive(false);
 
         // 加入問題
         questions.Add(new Question(
@@ -85,10 +82,7 @@ public class 黃瓜1 : MonoBehaviour
             resultText.text = $"答錯了，再挑戰其他題吧";
             collectfood.Instance.UnCollectIngredient("黃瓜1");
         }
-        warning.SetActive(true);
-        Invoke("HideHintImage", waitingTime);
 
-        Timer.Instance.AddTime(addTime);
         Invoke("LoadNextScene", waitingTime);
     }
 
@@ -121,10 +115,5 @@ public class 黃瓜1 : MonoBehaviour
         {
             return char.ToUpper(selectedOption) == char.ToUpper(CorrectAnswer);
         }
-    }
-
-    void HideHintImage()
-    {
-        warning.SetActive(false);
     }
 }

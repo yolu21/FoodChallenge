@@ -18,17 +18,22 @@ public class ChangeSences : MonoBehaviour
     public List<string> objetfoods = new List<string> { "竹筍1", "竹筍2", "香菇1", "香菇2", "豬肉1", "豬肉2" };
     public Image Error;
     public GameObject PassObj;
+    public GameObject FailObj;
+    public GameObject RepeatObj;
+    public GameObject ExtraObj;
     float waitingTime = 2f;
+    float addTime = 10f;
     void Start()
     {
         // PlayerPrefs.SetString("ReturnScene", SceneManager.GetActiveScene().name);
-        PassObj.SetActive(false);
+        HideHintImage();
+        
         for (int i = 0; i < ingredientSlots.Length; i++)
         {
             ingredientSlots[i].sprite = questionMarkSprite;
         }
         // UpdateCollectedIngredients();
-        Error.gameObject.SetActive(false);
+        //Error.gameObject.SetActive(false);
 
 
     }
@@ -47,11 +52,12 @@ public class ChangeSences : MonoBehaviour
         collectfood.Instance.OnIngredientsChanged(newingredients);
 
         //Debug.Log("1"+collectfood.Instance.GetCollectedIngredients()[0]);
-        //Debug.Log("2"+collectfood.Instance.GetUnCollectedIngredients()[0]);
-
+        //Debug.Log("2"+collectfood.Instance.GetUnCollectedIngredients()[0]);.
+        int Count = GameObject.transform.childCount;
         foreach (Transform child in GameObject.transform)
         {
             // Debug.Log(123456789);
+
             Button ingredientButton = child.GetComponent<Button>();
             if (ingredientButton != null)
             {
@@ -63,16 +69,24 @@ public class ChangeSences : MonoBehaviour
                 if (collectfood.Instance.HasCollected(ingredientName) || collectfood.Instance.HasCollected(ingredientName2))
                 {
                     ingredientButton.gameObject.SetActive(false);
-
+                    Count--;
                 }
 
                 if (collectfood.Instance.NotHasCollected(ingredientName) || collectfood.Instance.NotHasCollected(ingredientName2))
                 {
                     ingredientButton.gameObject.SetActive(false);
-
+                    Count--;
                 }
 
             }
+            Debug.Log(GameObject.transform.childCount);
+        }
+        if (Count == 0)
+        {
+            Timer.Instance.StopTimer(); // 停止计时器
+            FailObj.SetActive(true); // 显示失败提示
+            Invoke("HideFailObj", waitingTime);
+            Invoke("LoadNextScene", waitingTime);
         }
 
     }
@@ -95,6 +109,10 @@ public class ChangeSences : MonoBehaviour
                 Debug.Log("NO");
                 ingredientsToRemove.Add(ingredient);
                 StartCoroutine(ShowAndHideErrorImage());
+
+                ExtraObj.SetActive(true);
+                Invoke("HideHintImage", waitingTime);
+                Timer.Instance.AddTime(addTime);
             }
         }
 
@@ -104,23 +122,46 @@ public class ChangeSences : MonoBehaviour
             ingredients.Remove(ingredient);
         }
         collectfood.Instance.OnUNIngredientsChanged(ingredientsToRemove);
+
+        //for (int j = 0; j < ingredientSlots.Length; j++)
+        //{
+        //    ingredientSlots[j].sprite = questionMarkSprite;
+        //}
+
         int i = 0;
+        HashSet<string> uniqueIngredients = new HashSet<string>();
+
         foreach (string ingredient in ingredients)
         {
+            string baseIngredient = ingredient.Replace("1", "").Replace("2", "");
+
             if (objetfoods.Contains(ingredient))
             {
-                ingredientSlots[i].sprite = GetIngredientSprite(ingredient);
+                if (!uniqueIngredients.Contains(baseIngredient))
+                {
+                    uniqueIngredients.Add(baseIngredient);
+                    ingredientSlots[i].sprite = GetIngredientSprite(ingredient);
+                    i++;
+                }
+                else if (uniqueIngredients.Contains(baseIngredient))
+                {
+                        RepeatObj.SetActive(true);
+                        Invoke("HideHintImage", waitingTime);
+                        Timer.Instance.AddTime(addTime);
+                        ingredientsToRemove.Add(ingredient);
+                }
             }
-            i++;
-            if (i >= 3) // 確保集滿三個
+
+            if (uniqueIngredients.Count >= 3) // 確保集滿三個且不重複
             {
                 PassObj.SetActive(true);
                 Invoke("HideHintImage", waitingTime);
-                Timer.Instance.StopTimer(); // 停止计时器
+                Timer.Instance.StopTimer(); // 停止計時器
                 Invoke("LoadNextScene", waitingTime);
+                MedalManager.GamePass = true;
+                break; // 已經集滿三個，跳出循環
             }
         }
-
         return ingredients;
     }
     private void LoadNextScene()
@@ -130,8 +171,10 @@ public class ChangeSences : MonoBehaviour
     void HideHintImage()
     {
         PassObj.SetActive(false);
+        FailObj.SetActive(false);
+        RepeatObj.SetActive(false);
+        ExtraObj.SetActive(false);
     }
-
     private IEnumerator ShowAndHideErrorImage()
     {
         // Show the image
