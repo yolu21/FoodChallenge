@@ -17,7 +17,7 @@ public class 豬肉2 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,15 +26,15 @@ public class 豬肉2 : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "豬肉中的主要脂肪類型是什麼？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "飽和脂肪"},
+                {'B', "不飽和脂肪"},
+                {'C', "反式脂肪"},
+                {'D', "多元不飽和脂肪"}
             },
-            'C'));
+            'A'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -73,7 +73,7 @@ public class 豬肉2 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("豬肉2");
+            collectfood_meatballs.Instance.CollectIngredient("豬肉2");
             Invoke("LoadNextScene", waitingTime);
             // NextQuestion();
 
@@ -81,7 +81,7 @@ public class 豬肉2 : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("豬肉2");
+            collectfood_meatballs.Instance.UnCollectIngredient("豬肉2");
             Invoke("LoadNextScene", waitingTime);
         }
     }

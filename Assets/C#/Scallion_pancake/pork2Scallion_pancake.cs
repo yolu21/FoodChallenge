@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;    // 記得加這行
-
+using UnityEngine.SceneManagement;
 public class pork2Scallion_pancake : MonoBehaviour
 {
     private List<Question> questions;
@@ -17,7 +17,7 @@ public class pork2Scallion_pancake : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-
+    float waitingTime = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,13 +25,13 @@ public class pork2Scallion_pancake : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "哪一部位的豬肉脂肪含量最高？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "腿肉"},
+                {'B', "里脊肉"},
+                {'C', "五花肉"},
+                {'D', "肩肉"}
             },
             'C'));
         questionText.text = questions[0].Content;
@@ -76,16 +76,21 @@ public class pork2Scallion_pancake : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("pork2");
+            collectfood_scallionpancake.Instance.CollectIngredient("pork2");
             // NextQuestion();
 
         }
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("pork2");
+            collectfood_scallionpancake.Instance.UnCollectIngredient("pork2");
         }
-        buttonclose.onClick.AddListener(MyButtonClickclose);
+        Invoke("LoadNextScene", waitingTime);
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene("taiwan(Scallion_pancake)");
     }
     // Update is called once per frame
 

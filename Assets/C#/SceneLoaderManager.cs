@@ -16,7 +16,7 @@ public class SceneLoadManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Timer timer = FindObjectOfType<Timer>();
-        if (timer != null && MedalManager.GamePlayed)
+        if (timer != null && (MedalManager.chickenriceGamePlayed || MedalManager.meatBallsGamePlayed || MedalManager.pineappleCakeGamePlayed || MedalManager.scallionPancakeGamePlayed))
         {
             timer.ResumeTimer();
         }

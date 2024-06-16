@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;    // 記得加這行
-
+using UnityEngine.SceneManagement;
 public class butter1 : MonoBehaviour
 {
     private List<Question> questions;
@@ -16,7 +16,7 @@ public class butter1 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-
+    float waitingTime = 1f;
 
     private string currentIngredient;
 
@@ -27,15 +27,15 @@ public class butter1 : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "下列何者不可拿來做奶油？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "牛奶"},
+                {'B', "羊奶"},
+                {'C', "水牛奶"},
+                {'D', "豬奶"}
             },
-            'C'));
+            'D'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -79,7 +79,7 @@ public class butter1 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("butter1");
+            collectfood_pineapplecake.Instance.CollectIngredient("butter1");
             // ReturnToMainScene();
             // NextQuestion();
 
@@ -87,11 +87,16 @@ public class butter1 : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("butter1");
+            collectfood_pineapplecake.Instance.UnCollectIngredient("butter1");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }
-        buttonclose.onClick.AddListener(MyButtonClickclose);
+        Invoke("LoadNextScene", waitingTime);
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene("taiwan(pineapple_cake)");
     }
     // Update is called once per frame
     void ReturnToMainScene()

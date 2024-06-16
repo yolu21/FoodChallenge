@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;    // 記得加這行
-
+using UnityEngine.SceneManagement;
 public class egg2Scallion_pancake : MonoBehaviour
 {
     private List<Question> questions;
@@ -16,7 +16,7 @@ public class egg2Scallion_pancake : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-
+    float waitingTime = 1f;
 
     private string currentIngredient;
 
@@ -27,15 +27,15 @@ public class egg2Scallion_pancake : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "蛋殼的顏色取決於什麼？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "雞的品種"},
+                {'B', "雞的飲食"},
+                {'C', "飼養溫度"},
+                {'D', "飼養濕度"}
             },
-            'C'));
+            'A'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -79,7 +79,7 @@ public class egg2Scallion_pancake : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("egg2");
+            collectfood_scallionpancake.Instance.CollectIngredient("egg2");
             // ReturnToMainScene();
             // NextQuestion();
 
@@ -87,11 +87,16 @@ public class egg2Scallion_pancake : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("egg2");
+            collectfood_scallionpancake.Instance.UnCollectIngredient("egg2");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }
-        buttonclose.onClick.AddListener(MyButtonClickclose);
+        Invoke("LoadNextScene", waitingTime);
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene("taiwan(Scallion_pancake)");
     }
     // Update is called once per frame
     void ReturnToMainScene()

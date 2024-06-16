@@ -17,7 +17,7 @@ public class 黃瓜2 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,15 +26,15 @@ public class 黃瓜2 : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "小黃瓜的表皮通常是什麼顏色？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "黃色"},
+                {'B', "綠色"},
+                {'C', "紅色"},
+                {'D', "橙色"}
             },
-            'C'));
+            'B'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -73,14 +73,14 @@ public class 黃瓜2 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("黃瓜2");
+            collectfood_meatballs.Instance.CollectIngredient("黃瓜2");
             // NextQuestion();
 
         }
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("黃瓜2");
+            collectfood_meatballs.Instance.UnCollectIngredient("黃瓜2");
         }
         Invoke("LoadNextScene", waitingTime);
     }

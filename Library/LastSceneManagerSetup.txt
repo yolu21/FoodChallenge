@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/meatballs/taiwan(meatballs).unity
+- path: Assets/Scenes/cover.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

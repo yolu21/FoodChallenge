@@ -16,7 +16,7 @@ public class chicken2chickenrice : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,15 +24,15 @@ public class chicken2chickenrice : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "雞肉屬於哪一類肉類？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "白肉"},
+                {'B', "紅肉"},
+                {'C', "加工肉"},
+                {'D', "野味肉"}
             },
-            'C'));
+            'A'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -71,14 +71,14 @@ public class chicken2chickenrice : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("chicken2");
+            collectfood_chickenrice.Instance.CollectIngredient("chicken2");
             // NextQuestion();
 
         }
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("chicken2");
+            collectfood_chickenrice.Instance.UnCollectIngredient("chicken2");
         }
         Invoke("LoadNextScene", waitingTime);
     }

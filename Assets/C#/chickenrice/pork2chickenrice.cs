@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;    // 記得加這行
 using UnityEngine.SceneManagement;
+
 public class pork2chickenrice : MonoBehaviour
 {
     private List<Question> questions;
@@ -16,25 +17,25 @@ public class pork2chickenrice : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float addTime = 10f;
-    float waitingTime = 2f;
-    public GameObject warning;
+    float waitingTime = 1f;
+
+    private string currentIngredient;
+
     // Start is called before the first frame update
     void Start()
     {
         questions = new List<Question>();
-        warning.SetActive(false);
         // 加入問題
         questions.Add(new Question(
-            "Q",
-            new Dictionary<char, string>
-            {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
-            },
-            'C'));
+           "豬肉的主要成分是什麼",
+           new Dictionary<char, string>
+           {
+                {'A', "碳水化合物"},
+                {'B', "蛋白質"},
+                {'C', "脂肪"},
+                {'D', "維生素"}
+           },
+           'B'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -66,35 +67,40 @@ public class pork2chickenrice : MonoBehaviour
         CheckAnswer('D');
     }
 
-
     public void CheckAnswer(char selectedOption)
     {
 
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("pork2");
+            collectfood_chickenrice.Instance.CollectIngredient("pork2");
+            // ReturnToMainScene();
             // NextQuestion();
 
         }
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("pork2");
+            collectfood_chickenrice.Instance.UnCollectIngredient("prok2");
+            // collectfood.Instance.CollectIngredient(currentIngredient);
+            // ReturnToMainScene();
         }
-        warning.SetActive(true);
-        Invoke("HideHintImage", waitingTime);
 
-        Timer.Instance.AddTime(addTime);
+        //buttonclose.onClick.AddListener(MyButtonClickclose);
+
+
         Invoke("LoadNextScene", waitingTime);
     }
-
     private void LoadNextScene()
     {
         SceneManager.LoadScene("taiwan(chickenrice)");
     }
     // Update is called once per frame
-
+    void ReturnToMainScene()
+    {
+        // 假設主場景名稱為 "MainScene"
+        UnityEngine.SceneManagement.SceneManager.LoadScene("taiwan");
+    }
     void Update()
     {
 
@@ -120,8 +126,4 @@ public class pork2chickenrice : MonoBehaviour
         }
     }
 
-    void HideHintImage()
-    {
-        warning.SetActive(false);
-    }
 }

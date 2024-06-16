@@ -17,7 +17,7 @@ public class 蔥1 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -25,13 +25,13 @@ public class 蔥1 : MonoBehaviour
         questions = new List<Question>();
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "青蔥的哪一部分含有最多的營養成分？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "根部"},
+                {'B', "中段莖部"},
+                {'C', "頂部綠葉"},
+                {'D', "整株都一樣"}
             },
             'C'));
         questionText.text = questions[0].Content;
@@ -72,7 +72,7 @@ public class 蔥1 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("蔥1");
+            collectfood_meatballs.Instance.CollectIngredient("蔥1");
             
             // NextQuestion();
 
@@ -80,7 +80,7 @@ public class 蔥1 : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("蔥1");
+            collectfood_meatballs.Instance.UnCollectIngredient("蔥1");
             
         }
         

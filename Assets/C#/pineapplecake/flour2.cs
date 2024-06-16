@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;    // 記得加這行
-
+using UnityEngine.SceneManagement;
 public class flour2 : MonoBehaviour
 {
     private List<Question> questions;
@@ -16,7 +16,7 @@ public class flour2 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-
+    float waitingTime = 1f;
 
     private string currentIngredient;
 
@@ -27,13 +27,13 @@ public class flour2 : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "下列何者不是麵粉的一類？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "特高筋麵粉"},
+                {'B', "高筋麵粉"},
+                {'C', "特低筋麵粉"},
+                {'D', "低筋麵粉"}
             },
             'C'));
         questionText.text = questions[0].Content;
@@ -79,7 +79,7 @@ public class flour2 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("flour2");
+            collectfood_pineapplecake.Instance.CollectIngredient("flour2");
             // ReturnToMainScene();
             // NextQuestion();
 
@@ -87,11 +87,16 @@ public class flour2 : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("flour2");
+            collectfood_pineapplecake.Instance.UnCollectIngredient("flour2");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }
-        buttonclose.onClick.AddListener(MyButtonClickclose);
+        Invoke("LoadNextScene", waitingTime);
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene("taiwan(pineapple_cake)");
     }
     // Update is called once per frame
     void ReturnToMainScene()

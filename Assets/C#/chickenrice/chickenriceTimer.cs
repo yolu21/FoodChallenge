@@ -7,8 +7,14 @@ public class chickenriceTimer : MonoBehaviour
 
     void Start()
     {
-        // 确保 Timer 的 timerText 被设置
         Timer timerInstance = Timer.Instance;
+        timerInstance.currentGame = Timer.GameType.ChickenRice;
         timerInstance.UpdateTimerTextReference(timerText);
     }
+
+    public void ResetTimer()
+    {
+        Timer.Instance.ResetTimer(); // 重置计时器
+    }
 }
+

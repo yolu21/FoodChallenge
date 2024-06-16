@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;    // 記得加這行
-
+using UnityEngine.SceneManagement;
 public class green_onion2Scallion_pancake : MonoBehaviour
 {
     private List<Question> questions;
@@ -17,7 +17,7 @@ public class green_onion2Scallion_pancake : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-
+    float waitingTime = 1f;
 
     private string currentIngredient;
 
@@ -28,13 +28,13 @@ public class green_onion2Scallion_pancake : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "哪一個部分的青蔥通常被廚師用來裝飾菜肴？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "根部"},
+                {'B', "莖部"},
+                {'C', "葉部"},
+                {'D', "全部都可以"}
             },
             'C'));
         questionText.text = questions[0].Content;
@@ -79,7 +79,7 @@ public class green_onion2Scallion_pancake : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("green_onion2");
+            collectfood_scallionpancake.Instance.CollectIngredient("green_onion2");
             // ReturnToMainScene();
             // NextQuestion();
 
@@ -87,11 +87,16 @@ public class green_onion2Scallion_pancake : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("green_onion2");
+            collectfood_scallionpancake.Instance.UnCollectIngredient("green_onion2");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }
-        buttonclose.onClick.AddListener(MyButtonClickclose);
+        Invoke("LoadNextScene", waitingTime);
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene("taiwan(Scallion_pancake)");
     }
     // Update is called once per frame
     void ReturnToMainScene()

@@ -17,26 +17,23 @@ public class pork1chickenrice : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float addTime = 10f;
-    float waitingTime = 2f;
-    public GameObject warning;
+    float waitingTime = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
         questions = new List<Question>();
-        warning.SetActive(false);
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "哪種維生素在豬肉中含量豐富",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "維生素C"},
+                {'B', "維生素B1（硫胺素）"},
+                {'C', "維生素D"},
+                {'D', "維生素E"}
             },
-            'C'));
+            'B'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -75,19 +72,16 @@ public class pork1chickenrice : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("pork1");
+            collectfood_chickenrice.Instance.CollectIngredient("pork1");
             // NextQuestion();
 
         }
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("pork1");
+            collectfood_chickenrice.Instance.UnCollectIngredient("pork1");
         }
-        warning.SetActive(true);
-        Invoke("HideHintImage", waitingTime);
 
-        Timer.Instance.AddTime(addTime);
         Invoke("LoadNextScene", waitingTime);
     }
 
@@ -122,8 +116,4 @@ public class pork1chickenrice : MonoBehaviour
         }
     }
 
-    void HideHintImage()
-    {
-        warning.SetActive(false);
-    }
 }

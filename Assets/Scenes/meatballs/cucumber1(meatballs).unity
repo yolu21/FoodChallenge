@@ -499,7 +499,6 @@ MonoBehaviour:
   TextB: {fileID: 1603944242}
   TextC: {fileID: 666997211}
   TextD: {fileID: 675238510}
-  warning: {fileID: 0}
 --- !u!1 &666997210
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,7 +664,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1965834934}
         m_TargetAssemblyTypeName: ChangeSences, Assembly-CSharp
-        m_MethodName: CloseChoose
+        m_MethodName: CloseQues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1825,6 +1824,8 @@ MonoBehaviour:
   Error: {fileID: 0}
   PassObj: {fileID: 0}
   FailObj: {fileID: 0}
+  RepeatObj: {fileID: 0}
+  ExtraObj: {fileID: 0}
 --- !u!4 &1965834935
 Transform:
   m_ObjectHideFlags: 0

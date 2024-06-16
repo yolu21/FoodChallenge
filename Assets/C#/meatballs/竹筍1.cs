@@ -17,7 +17,7 @@ public class 竹筍1 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
 
     private string currentIngredient;
     // Start is called before the first frame update
@@ -74,7 +74,7 @@ public class 竹筍1 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("竹筍1");
+            collectfood_meatballs.Instance.CollectIngredient("竹筍1");
             Invoke("LoadNextScene", waitingTime);
             // ReturnToMainScene();
             // NextQuestion();
@@ -83,7 +83,7 @@ public class 竹筍1 : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("竹筍1");
+            collectfood_meatballs.Instance.UnCollectIngredient("竹筍1");
             Invoke("LoadNextScene", waitingTime);
 
             // collectfood.Instance.CollectIngredient(currentIngredient);

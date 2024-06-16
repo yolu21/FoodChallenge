@@ -84,4 +84,6 @@ public class collectfood : MonoBehaviour
     {
         uncollectedIngredients = ingredient;
     }
+
+    
 }

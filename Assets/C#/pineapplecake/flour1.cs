@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;    // 記得加這行
-
+using UnityEngine.SceneManagement;
 public class flour1 : MonoBehaviour
 {
     private List<Question> questions;
@@ -16,7 +16,7 @@ public class flour1 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-
+    float waitingTime = 1f;
 
     private string currentIngredient;
 
@@ -27,15 +27,15 @@ public class flour1 : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "如何辨別麵粉為低、中、高筋？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "看澱粉多寡"},
+                {'B', "看蛋白質多寡"},
+                {'C', "看礦物質多寡"},
+                {'D', "看脂肪多寡"}
             },
-            'C'));
+            'B'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -79,7 +79,7 @@ public class flour1 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("flour1");
+            collectfood_pineapplecake.Instance.CollectIngredient("flour1");
             // ReturnToMainScene();
             // NextQuestion();
 
@@ -87,11 +87,16 @@ public class flour1 : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("flour1");
+            collectfood_pineapplecake.Instance.UnCollectIngredient("flour1");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }
-        buttonclose.onClick.AddListener(MyButtonClickclose);
+        Invoke("LoadNextScene", waitingTime);
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene("taiwan(pineapple_cake)");
     }
     // Update is called once per frame
     void ReturnToMainScene()

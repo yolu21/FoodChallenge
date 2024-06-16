@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;    // 記得加這行
+using UnityEngine.SceneManagement;
 
 public class pineapple2 : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class pineapple2 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-
+    float waitingTime = 1f;
 
     private string currentIngredient;
 
@@ -27,15 +28,15 @@ public class pineapple2 : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "台灣鳳梨大多種植在哪一個地區？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "中南部"},
+                {'B', "北部"},
+                {'C', "東部"},
+                {'D', "外島"}
             },
-            'C'));
+            'A'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -79,7 +80,7 @@ public class pineapple2 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("pineapple2");
+            collectfood_pineapplecake.Instance.CollectIngredient("pineapple2");
             // ReturnToMainScene();
             // NextQuestion();
 
@@ -87,11 +88,16 @@ public class pineapple2 : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("pineapple2");
+            collectfood_pineapplecake.Instance.UnCollectIngredient("pineapple2");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }
-        buttonclose.onClick.AddListener(MyButtonClickclose);
+        Invoke("LoadNextScene", waitingTime);
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene("taiwan(pineapple_cake)");
     }
     // Update is called once per frame
     void ReturnToMainScene()

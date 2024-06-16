@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;    // 記得加這行
-
+using UnityEngine.SceneManagement;
 public class butter2 : MonoBehaviour
 {
     private List<Question> questions;
@@ -17,7 +17,7 @@ public class butter2 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-
+    float waitingTime = 1f;
 
     private string currentIngredient;
 
@@ -28,13 +28,13 @@ public class butter2 : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "奶油是乳脂肪須達到多少以上才能標示為奶油？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "60%"},
+                {'B', "70%"},
+                {'C', "80%"},
+                {'D', "90%"}
             },
             'C'));
         questionText.text = questions[0].Content;
@@ -80,7 +80,7 @@ public class butter2 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("butter2");
+            collectfood_pineapplecake.Instance.CollectIngredient("butter2");
             // ReturnToMainScene();
             // NextQuestion();
 
@@ -88,11 +88,16 @@ public class butter2 : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("butter2");
+            collectfood_pineapplecake.Instance.UnCollectIngredient("butter2");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }
-        buttonclose.onClick.AddListener(MyButtonClickclose);
+        Invoke("LoadNextScene", waitingTime);
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene("taiwan(pineapple_cake)");
     }
     // Update is called once per frame
     void ReturnToMainScene()

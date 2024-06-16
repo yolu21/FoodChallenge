@@ -17,9 +17,7 @@ public class green_onion1chickenrice : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float addTime = 10f;
-    float waitingTime = 2f;
-    public GameObject warning;
+    float waitingTime = 1f;
 
     private string currentIngredient;
 
@@ -27,16 +25,15 @@ public class green_onion1chickenrice : MonoBehaviour
     void Start()
     {
         questions = new List<Question>();
-        warning.SetActive(false);
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "下列何者不適合食用青蔥？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "腸胃虛弱者"},
+                {'B', "視力較差者"},
+                {'C', "體味較重者"},
+                {'D', "以上皆是"}
             },
             'C'));
         questionText.text = questions[0].Content;
@@ -69,12 +66,6 @@ public class green_onion1chickenrice : MonoBehaviour
     {
         CheckAnswer('D');
     }
-    public Button buttonclose;
-    void MyButtonClickclose()
-    {
-        // Debug.Log("123123123132132123561");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("taiwan(pineapple_cake)");
-    }
 
     public void CheckAnswer(char selectedOption)
     {
@@ -82,7 +73,7 @@ public class green_onion1chickenrice : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("green_onion1");
+            collectfood_chickenrice.Instance.CollectIngredient("green_onion1");
             // ReturnToMainScene();
             // NextQuestion();
 
@@ -90,17 +81,14 @@ public class green_onion1chickenrice : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("green_onion1");
+            collectfood_chickenrice.Instance.UnCollectIngredient("green_onion1");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }
 
         //buttonclose.onClick.AddListener(MyButtonClickclose);
 
-        warning.SetActive(true);
-        Invoke("HideHintImage", waitingTime);
 
-        Timer.Instance.AddTime(addTime);
         Invoke("LoadNextScene", waitingTime);
     }
     private void LoadNextScene()
@@ -138,8 +126,4 @@ public class green_onion1chickenrice : MonoBehaviour
         }
     }
 
-    void HideHintImage()
-    {
-        warning.SetActive(false);
-    }
 }

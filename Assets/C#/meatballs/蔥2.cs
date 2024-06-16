@@ -17,7 +17,7 @@ public class 蔥2 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,15 +26,15 @@ public class 蔥2 : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "青蔥的哪個部分常被用來做菜？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "莖部和葉部"},
+                {'B', "根部"},
+                {'C', "花朵"},
+                {'D', "種子"}
             },
-            'C'));
+            'A'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -73,14 +73,14 @@ public class 蔥2 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("蔥2");
+            collectfood_meatballs.Instance.CollectIngredient("蔥2");
             // NextQuestion();
 
         }
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("蔥2");
+            collectfood_meatballs.Instance.UnCollectIngredient("蔥2");
         }
         Invoke("LoadNextScene", waitingTime);
     }

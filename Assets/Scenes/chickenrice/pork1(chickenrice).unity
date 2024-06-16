@@ -556,7 +556,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 497340282}
-  - component: {fileID: 497340283}
   - component: {fileID: 497340280}
   - component: {fileID: 497340279}
   - component: {fileID: 497340278}
@@ -659,28 +658,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &497340283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 497340277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3d2dfdd4232530419b04d4a5342153b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questionText: {fileID: 1608654733}
-  resultText: {fileID: 698271234}
-  buttonA: {fileID: 1129438316}
-  buttonB: {fileID: 1086262593}
-  buttonC: {fileID: 233089246}
-  buttonD: {fileID: 270660464}
-  TextA: {fileID: 1809517490}
-  TextB: {fileID: 1603944242}
-  TextC: {fileID: 666997211}
-  TextD: {fileID: 675238510}
 --- !u!114 &497340284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,7 +680,6 @@ MonoBehaviour:
   TextB: {fileID: 1603944242}
   TextC: {fileID: 666997211}
   TextD: {fileID: 675238510}
-  warning: {fileID: 1329723157}
 --- !u!1 &666997210
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,7 +845,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1965834936}
         m_TargetAssemblyTypeName: ChangeSences_chickenrice, Assembly-CSharp
-        m_MethodName: CloseChoose
+        m_MethodName: CloseQues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2151,6 +2127,10 @@ MonoBehaviour:
   - cucumber1
   - cucumber2
   Error: {fileID: 0}
+  PassObj: {fileID: 0}
+  FailObj: {fileID: 0}
+  RepeatObj: {fileID: 0}
+  ExtraObj: {fileID: 0}
 --- !u!1 &2030921163
 GameObject:
   m_ObjectHideFlags: 0

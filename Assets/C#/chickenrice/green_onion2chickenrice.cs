@@ -17,9 +17,7 @@ public class green_onion2chickenrice : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float addTime = 10f;
-    float waitingTime = 2f;
-    public GameObject warning;
+    float waitingTime = 1f;
 
     private string currentIngredient;
 
@@ -27,16 +25,15 @@ public class green_onion2chickenrice : MonoBehaviour
     void Start()
     {
         questions = new List<Question>();
-        warning.SetActive(false);
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "下列何者不是食用青蔥的好處？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "預防血壓升高"},
+                {'B', "改善便秘"},
+                {'C', "降低胃食道逆流"},
+                {'D', "降低膽固醇"}
             },
             'C'));
         questionText.text = questions[0].Content;
@@ -81,7 +78,7 @@ public class green_onion2chickenrice : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("green_onion2");
+            collectfood_chickenrice.Instance.CollectIngredient("green_onion2");
             // ReturnToMainScene();
             // NextQuestion();
 
@@ -89,16 +86,12 @@ public class green_onion2chickenrice : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("green_onion2");
+            collectfood_chickenrice.Instance.UnCollectIngredient("green_onion2");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }
         //buttonclose.onClick.AddListener(MyButtonClickclose);
 
-        warning.SetActive(true);
-        Invoke("HideHintImage", waitingTime);
-
-        Timer.Instance.AddTime(addTime);
         Invoke("LoadNextScene", waitingTime);
     }
 
@@ -135,9 +128,5 @@ public class green_onion2chickenrice : MonoBehaviour
         {
             return char.ToUpper(selectedOption) == char.ToUpper(CorrectAnswer);
         }
-    }
-    void HideHintImage()
-    {
-        warning.SetActive(false);
     }
 }

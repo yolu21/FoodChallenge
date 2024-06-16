@@ -12,6 +12,9 @@ public class Timer : MonoBehaviour
     private static Timer instance;
     private float additionalTime;
 
+    public enum GameType { ChickenRice, MeatBalls, PineappleCake, ScallionPancake }
+    public GameType currentGame;
+
     public static Timer Instance
     {
         get
@@ -44,12 +47,11 @@ public class Timer : MonoBehaviour
 
     void Start()
     {
-
-        if (!isTiming && !MedalManager.GamePlayed)
+        if (!isTiming && !GetGamePlayed(currentGame))
         {
-            StartTimer();
+            ResetTimer();
         }
-        else if (MedalManager.GamePlayed)
+        else if (GetGamePlayed(currentGame))
         {
             ResumeTimer();
         }
@@ -65,7 +67,7 @@ public class Timer : MonoBehaviour
 
     public void StartTimer()
     {
-        startTime = Time.time - MedalManager.TotalTime;
+        startTime = Time.time - GetTotalTime(currentGame);
         isTiming = true;
         additionalTime = 0f;
     }
@@ -73,8 +75,8 @@ public class Timer : MonoBehaviour
     public void StopTimer()
     {
         isTiming = false;
-        MedalManager.TotalTime = Time.time - startTime;
-        MedalManager.GamePlayed = true;
+        SetTotalTime(currentGame, (Time.time - startTime) + additionalTime);
+        SetGamePlayed(currentGame, true);
     }
 
     private void UpdateTimer()
@@ -82,6 +84,7 @@ public class Timer : MonoBehaviour
         float totalTime = (Time.time - startTime) + additionalTime;
         string minutes = ((int)totalTime / 60).ToString("00");
         string seconds = (totalTime % 60).ToString("00.00");
+        //SetTotalTime(currentGame, totalTime);
         if (timerText != null)
         {
             timerText.text = minutes + ":" + seconds;
@@ -95,7 +98,7 @@ public class Timer : MonoBehaviour
 
     public void ResumeTimer()
     {
-        startTime = Time.time - MedalManager.TotalTime;
+        startTime = Time.time - GetTotalTime(currentGame);
         isTiming = true;
     }
 
@@ -104,8 +107,90 @@ public class Timer : MonoBehaviour
         timerText = newTimerText;
         UpdateTimer(); // 确保新的文本组件立即显示当前时间
     }
+
     public void AddTime(float extraTime)
     {
         additionalTime += extraTime;
+    }
+
+    public void ResetTimer()
+    {
+        SetTotalTime(currentGame, 0);
+        additionalTime = 0;
+        startTime = Time.time;
+        isTiming = true;
+        UpdateTimer();
+    }
+
+    private float GetTotalTime(GameType game)
+    {
+        switch (game)
+        {
+            case GameType.ChickenRice:
+                return MedalManager.chickenriceTotalTime;
+            case GameType.MeatBalls:
+                return MedalManager.meatBallsTotalTime;
+            case GameType.PineappleCake:
+                return MedalManager.pineappleCakeTotalTime;
+            case GameType.ScallionPancake:
+                return MedalManager.scallionPancakeTotalTime;
+            default:
+                return 0;
+        }
+    }
+
+    private void SetTotalTime(GameType game, float time)
+    {
+        switch (game)
+        {
+            case GameType.ChickenRice:
+                MedalManager.chickenriceTotalTime = time;
+                break;
+            case GameType.MeatBalls:
+                MedalManager.meatBallsTotalTime = time;
+                break;
+            case GameType.PineappleCake:
+                MedalManager.pineappleCakeTotalTime = time;
+                break;
+            case GameType.ScallionPancake:
+                MedalManager.scallionPancakeTotalTime = time;
+                break;
+        }
+    }
+
+    private bool GetGamePlayed(GameType game)
+    {
+        switch (game)
+        {
+            case GameType.ChickenRice:
+                return MedalManager.chickenriceGamePlayed;
+            case GameType.MeatBalls:
+                return MedalManager.meatBallsGamePlayed;
+            case GameType.PineappleCake:
+                return MedalManager.pineappleCakeGamePlayed;
+            case GameType.ScallionPancake:
+                return MedalManager.scallionPancakeGamePlayed;
+            default:
+                return false;
+        }
+    }
+
+    private void SetGamePlayed(GameType game, bool played)
+    {
+        switch (game)
+        {
+            case GameType.ChickenRice:
+                MedalManager.chickenriceGamePlayed = played;
+                break;
+            case GameType.MeatBalls:
+                MedalManager.meatBallsGamePlayed = played;
+                break;
+            case GameType.PineappleCake:
+                MedalManager.pineappleCakeGamePlayed = played;
+                break;
+            case GameType.ScallionPancake:
+                MedalManager.scallionPancakeGamePlayed = played;
+                break;
+        }
     }
 }

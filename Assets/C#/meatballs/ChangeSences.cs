@@ -21,7 +21,7 @@ public class ChangeSences : MonoBehaviour
     public GameObject FailObj;
     public GameObject RepeatObj;
     public GameObject ExtraObj;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
     float addTime = 10f;
     void Start()
     {
@@ -40,16 +40,16 @@ public class ChangeSences : MonoBehaviour
 
     void UpdateCollectedIngredients()
     {
-        List<string> ingredients = collectfood.Instance.GetCollectedIngredients();
+        List<string> ingredients = collectfood_meatballs.Instance.GetCollectedIngredients();
         // collectedIngredientsText.text = "收集到的食材:\n" + string.Join("\n", ingredients);
-        List<string> Uningredients = collectfood.Instance.GetUnCollectedIngredients();
+        List<string> Uningredients = collectfood_meatballs.Instance.GetUnCollectedIngredients();
         // UncollectedIngredientsText.text = "沒有收集到的食材:\n" + string.Join("\n", Uningredients);
         int size = ingredients.Count;
         // foreach (string ingredient in ingredients)
         List<string> newingredients;
         // foreach (string ingredient in ingredients)
         newingredients = DisplayCollectedIngredient(ingredients);
-        collectfood.Instance.OnIngredientsChanged(newingredients);
+        collectfood_meatballs.Instance.OnIngredientsChanged(newingredients);
 
         //Debug.Log("1"+collectfood.Instance.GetCollectedIngredients()[0]);
         //Debug.Log("2"+collectfood.Instance.GetUnCollectedIngredients()[0]);.
@@ -57,7 +57,6 @@ public class ChangeSences : MonoBehaviour
         foreach (Transform child in GameObject.transform)
         {
             // Debug.Log(123456789);
-
             Button ingredientButton = child.GetComponent<Button>();
             if (ingredientButton != null)
             {
@@ -66,27 +65,27 @@ public class ChangeSences : MonoBehaviour
 
                 // Debug.Log(ingredientName);
                 // Debug.Log(child.name);
-                if (collectfood.Instance.HasCollected(ingredientName) || collectfood.Instance.HasCollected(ingredientName2))
+                if (collectfood_meatballs.Instance.HasCollected(ingredientName) || collectfood_meatballs.Instance.HasCollected(ingredientName2))
                 {
                     ingredientButton.gameObject.SetActive(false);
                     Count--;
                 }
 
-                if (collectfood.Instance.NotHasCollected(ingredientName) || collectfood.Instance.NotHasCollected(ingredientName2))
+                if (collectfood_meatballs.Instance.NotHasCollected(ingredientName) || collectfood_meatballs.Instance.NotHasCollected(ingredientName2))
                 {
                     ingredientButton.gameObject.SetActive(false);
                     Count--;
                 }
 
             }
-            Debug.Log(GameObject.transform.childCount);
+            
         }
-        if (Count == 0)
+        if (Count == 0 && !MedalManager.meatBallsGamePass)
         {
             Timer.Instance.StopTimer(); // 停止计时器
             FailObj.SetActive(true); // 显示失败提示
             Invoke("HideFailObj", waitingTime);
-            Invoke("LoadNextScene", waitingTime);
+            CloseChoose();
         }
 
     }
@@ -100,7 +99,7 @@ public class ChangeSences : MonoBehaviour
         //        break;
         //    }
         //}
-        List<string> ingredientsToRemove = collectfood.Instance.GetUnCollectedIngredients();
+        List<string> ingredientsToRemove = collectfood_meatballs.Instance.GetUnCollectedIngredients();
 
         foreach (string ingredient in ingredients)
         {
@@ -121,7 +120,7 @@ public class ChangeSences : MonoBehaviour
         {
             ingredients.Remove(ingredient);
         }
-        collectfood.Instance.OnUNIngredientsChanged(ingredientsToRemove);
+        collectfood_meatballs.Instance.OnUNIngredientsChanged(ingredientsToRemove);
 
         //for (int j = 0; j < ingredientSlots.Length; j++)
         //{
@@ -155,10 +154,11 @@ public class ChangeSences : MonoBehaviour
             if (uniqueIngredients.Count >= 3) // 確保集滿三個且不重複
             {
                 PassObj.SetActive(true);
-                Invoke("HideHintImage", waitingTime);
-                Timer.Instance.StopTimer(); // 停止計時器
+                Timer.Instance.StopTimer();
+                Invoke("HideHintImage", waitingTime);// 停止計時器
+
                 Invoke("LoadNextScene", waitingTime);
-                MedalManager.GamePass = true;
+                MedalManager.meatBallsGamePass = true;
                 break; // 已經集滿三個，跳出循環
             }
         }
@@ -261,18 +261,46 @@ public class ChangeSences : MonoBehaviour
         SceneManager.LoadScene("green_onin2(meatballs)");
     }
 
-
-
     public void CloseChoose()
     {
         //string returnScene = PlayerPrefs.GetString("ReturnScene", "MainScene");
         //SceneManager.LoadScene(returnScene);
+        MedalManager.meatBallsGamePlayed = false;
+        MedalManager.meatBallsTotalTime = 0;
+        MedalManager.meatBallsGamePass = false;
+
+        collectfood_meatballs.Instance.ResetCollectedIngredients();
+
+        // Reset ingredient slots display
+        ResetIngredientSlots();
+
+        Invoke("LoadNextScene", waitingTime);
+    }
+    public void CloseQues()
+    {
         SceneManager.LoadScene("taiwan(meatballs)");
     }
-    public void CloseChoose_topineapple_cake()
+    public void RestartGame()
     {
+
+        Debug.Log("restart");
         //string returnScene = PlayerPrefs.GetString("ReturnScene", "MainScene");
         //SceneManager.LoadScene(returnScene);
-        SceneManager.LoadScene("taiwan(pineapple_cake)");
+        MedalManager.meatBallsGamePlayed = false;
+        MedalManager.meatBallsTotalTime = 0;
+        MedalManager.meatBallsGamePass = false;
+        Timer.Instance.ResetTimer();
+        collectfood_meatballs.Instance.ResetCollectedIngredients();
+
+        // Reset ingredient slots display
+        ResetIngredientSlots();
+        SceneManager.LoadScene("taiwan(meatballs)");
+    }
+    private void ResetIngredientSlots()
+    {
+        for (int i = 0; i < ingredientSlots.Length; i++)
+        {
+            ingredientSlots[i].sprite = questionMarkSprite;
+        }
     }
 }

@@ -709,7 +709,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1965834934}
         m_TargetAssemblyTypeName: ChangeSences, Assembly-CSharp
-        m_MethodName: CloseChoose
+        m_MethodName: CloseQues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1687,7 +1687,10 @@ MonoBehaviour:
   - "\u8C6C\u80891"
   - "\u8C6C\u80892"
   Error: {fileID: 0}
-  timerText: {fileID: 0}
+  PassObj: {fileID: 0}
+  FailObj: {fileID: 0}
+  RepeatObj: {fileID: 0}
+  ExtraObj: {fileID: 0}
 --- !u!4 &1965834935
 Transform:
   m_ObjectHideFlags: 0

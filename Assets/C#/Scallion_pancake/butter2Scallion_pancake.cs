@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;    // 記得加這行
-
+using UnityEngine.SceneManagement;
 public class butter2Scallion_pancake : MonoBehaviour
 {
     private List<Question> questions;
@@ -16,7 +16,7 @@ public class butter2Scallion_pancake : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-
+    float waitingTime = 1f;
 
     private string currentIngredient;
 
@@ -27,15 +27,15 @@ public class butter2Scallion_pancake : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "奶油的主要成分是什麼？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "蛋白質"},
+                {'B', "脂肪"},
+                {'C', "糖分"},
+                {'D', "鈣"}
             },
-            'C'));
+            'B'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -79,7 +79,7 @@ public class butter2Scallion_pancake : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("butter2");
+            collectfood_scallionpancake.Instance.CollectIngredient("butter2");
             // ReturnToMainScene();
             // NextQuestion();
 
@@ -87,11 +87,16 @@ public class butter2Scallion_pancake : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("butter2");
+            collectfood_scallionpancake.Instance.UnCollectIngredient("butter2");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }
-        buttonclose.onClick.AddListener(MyButtonClickclose);
+        Invoke("LoadNextScene", waitingTime);
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene("taiwan(Scallion_pancake)");
     }
     // Update is called once per frame
     void ReturnToMainScene()

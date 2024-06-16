@@ -17,7 +17,7 @@ public class 黃瓜1 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,15 +26,15 @@ public class 黃瓜1 : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "小黃瓜適合在什麼溫度下生長？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "溫暖氣候"},
+                {'B', "涼爽氣候"},
+                {'C', "寒冷氣候"},
+                {'D', "極熱氣候"}
             },
-            'C'));
+            'A'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -73,14 +73,14 @@ public class 黃瓜1 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("黃瓜1");
+            collectfood_meatballs.Instance.CollectIngredient("黃瓜1");
             // NextQuestion();
 
         }
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("黃瓜1");
+            collectfood_meatballs.Instance.UnCollectIngredient("黃瓜1");
         }
 
         Invoke("LoadNextScene", waitingTime);

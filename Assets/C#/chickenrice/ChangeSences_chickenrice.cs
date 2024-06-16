@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+
 
 public class ChangeSences_chickenrice : MonoBehaviour
 {
@@ -17,25 +17,31 @@ public class ChangeSences_chickenrice : MonoBehaviour
     public Sprite[] ingredientSprites;
     public List<string> objetfoods = new List<string> { "chicken1", "chicken2", "rice1", "rice2", "cucumber1", "cucumber2" };
     public Image Error;
+    public GameObject PassObj;
+    public GameObject FailObj;
+    public GameObject RepeatObj;
+    public GameObject ExtraObj;
+    float waitingTime = 1f;
+    float addTime = 10f;
     void Start()
     {
         // PlayerPrefs.SetString("ReturnScene", SceneManager.GetActiveScene().name);
-
+        HideHintImage();
         for (int i = 0; i < ingredientSlots.Length; i++)
         {
             ingredientSlots[i].sprite = questionMarkSprite;
         }
         // UpdateCollectedIngredients();
-        Error.gameObject.SetActive(false);
+        //Error.gameObject.SetActive(false);
 
 
     }
 
     void UpdateCollectedIngredients()
     {
-        List<string> ingredients = collectfood.Instance.GetCollectedIngredients();
+        List<string> ingredients = collectfood_chickenrice.Instance.GetCollectedIngredients();
         // collectedIngredientsText.text = "收集到的食材:\n" + string.Join("\n", ingredients);
-        List<string> Uningredients = collectfood.Instance.GetUnCollectedIngredients();
+        List<string> Uningredients = collectfood_chickenrice.Instance.GetUnCollectedIngredients();
         // UncollectedIngredientsText.text = "沒有收集到的食材:\n" + string.Join("\n", Uningredients);
         int size = ingredients.Count;
         // foreach (string ingredient in ingredients)
@@ -43,37 +49,44 @@ public class ChangeSences_chickenrice : MonoBehaviour
 
 
         newingredients = DisplayCollectedIngredient(ingredients);
-        collectfood.Instance.OnIngredientsChanged(newingredients);
+        collectfood_chickenrice.Instance.OnIngredientsChanged(newingredients);
 
         //Debug.Log("1"+collectfood.Instance.GetCollectedIngredients()[0]);
         //Debug.Log("2"+collectfood.Instance.GetUnCollectedIngredients()[0]);
-
+        int Count = GameObject.transform.childCount;
         foreach (Transform child in GameObject.transform)
         {
             // Debug.Log(123456789);
             Button ingredientButton = child.GetComponent<Button>();
+            
             if (ingredientButton != null)
             {
                 string ingredientName = child.name.Replace("1", "");
                 string ingredientName2 = child.name.Replace("2", "");
-
                 // Debug.Log(ingredientName);
                 // Debug.Log(child.name);
-                if (collectfood.Instance.HasCollected(ingredientName) || collectfood.Instance.HasCollected(ingredientName2))
+                if (collectfood_chickenrice.Instance.HasCollected(ingredientName) || collectfood_chickenrice.Instance.HasCollected(ingredientName2))
                 {
                     ingredientButton.gameObject.SetActive(false);
-
+                    Count--;
                 }
 
-                if (collectfood.Instance.NotHasCollected(ingredientName) || collectfood.Instance.NotHasCollected(ingredientName2))
+                if (collectfood_chickenrice.Instance.NotHasCollected(ingredientName) || collectfood_chickenrice.Instance.NotHasCollected(ingredientName2))
                 {
                     ingredientButton.gameObject.SetActive(false);
-
+                    Count--;
                 }
 
             }
+            
         }
-
+        if (Count == 0 && !MedalManager.chickenriceGamePass)
+        {
+            //Timer.Instance.StopTimer(); // 停止计时器
+            FailObj.SetActive(true); // 显示失败提示
+            Invoke("HideFailObj", waitingTime);
+            CloseChoose();
+        }
     }
     public List<string> DisplayCollectedIngredient(List<string> ingredients)
     {
@@ -85,7 +98,7 @@ public class ChangeSences_chickenrice : MonoBehaviour
         //        break;
         //    }
         //}
-        List<string> ingredientsToRemove = collectfood.Instance.GetUnCollectedIngredients();
+        List<string> ingredientsToRemove = collectfood_chickenrice.Instance.GetUnCollectedIngredients();
 
         foreach (string ingredient in ingredients)
         {
@@ -94,6 +107,10 @@ public class ChangeSences_chickenrice : MonoBehaviour
                 Debug.Log("NO");
                 ingredientsToRemove.Add(ingredient);
                 StartCoroutine(ShowAndHideErrorImage());
+
+                ExtraObj.SetActive(true);
+                Invoke("HideHintImage", waitingTime);
+                Timer.Instance.AddTime(addTime);
             }
         }
 
@@ -102,19 +119,56 @@ public class ChangeSences_chickenrice : MonoBehaviour
         {
             ingredients.Remove(ingredient);
         }
-        collectfood.Instance.OnUNIngredientsChanged(ingredientsToRemove);
+        collectfood_chickenrice.Instance.OnUNIngredientsChanged(ingredientsToRemove);
         int i = 0;
+        HashSet<string> uniqueIngredients = new HashSet<string>();
+
         foreach (string ingredient in ingredients)
         {
+            string baseIngredient = ingredient.Replace("1", "").Replace("2", "");
 
             if (objetfoods.Contains(ingredient))
             {
-                ingredientSlots[i].sprite = GetIngredientSprite(ingredient);
+                if (!uniqueIngredients.Contains(baseIngredient))
+                {
+                    uniqueIngredients.Add(baseIngredient);
+                    ingredientSlots[i].sprite = GetIngredientSprite(ingredient);
+                    i++;
+                }
+                else if (uniqueIngredients.Contains(baseIngredient))
+                {
+                    RepeatObj.SetActive(true);
+                    Invoke("HideHintImage", waitingTime);
+                    Timer.Instance.AddTime(addTime);
+                    ingredientsToRemove.Add(ingredient);
+                }
             }
-            i++;
+
+            if (uniqueIngredients.Count >= 3) // 確保集滿三個且不重複
+            {
+                PassObj.SetActive(true);
+                Invoke("HideHintImage", waitingTime);
+                Timer.Instance.StopTimer(); // 停止計時器
+                Invoke("LoadNextScene", waitingTime);
+                MedalManager.chickenriceGamePass = true;
+                break; // 已經集滿三個，跳出循環
+            }
         }
         return ingredients;
     }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene("menu");
+    }
+    void HideHintImage()
+    {
+        PassObj.SetActive(false);
+        FailObj.SetActive(false);
+        RepeatObj.SetActive(false);
+        ExtraObj.SetActive(false);
+    }
+
     private IEnumerator ShowAndHideErrorImage()
     {
         // Show the image
@@ -207,7 +261,46 @@ public class ChangeSences_chickenrice : MonoBehaviour
     {
         //string returnScene = PlayerPrefs.GetString("ReturnScene", "MainScene");
         //SceneManager.LoadScene(returnScene);
+        MedalManager.chickenriceGamePlayed = false;
+        MedalManager.chickenriceTotalTime = 0;
+        MedalManager.chickenriceGamePass = false;
+
+        collectfood_chickenrice.Instance.ResetCollectedIngredients();
+
+        // Reset ingredient slots display
+        ResetIngredientSlots();
+
+        Invoke("LoadNextScene", waitingTime);
+    }
+
+    public void RestartGame()
+    {
+        Debug.Log("restart");
+        //string returnScene = PlayerPrefs.GetString("ReturnScene", "MainScene");
+        //SceneManager.LoadScene(returnScene);
+        MedalManager.chickenriceGamePlayed = false;
+        MedalManager.chickenriceTotalTime = 0;
+        MedalManager.chickenriceGamePass = false;
+
+        Timer.Instance.ResetTimer();
+
+        collectfood_chickenrice.Instance.ResetCollectedIngredients();
+
+        // Reset ingredient slots display
+        ResetIngredientSlots();
         SceneManager.LoadScene("taiwan(chickenrice)");
+    }
+
+    public void CloseQues()
+    {
+        SceneManager.LoadScene("taiwan(chickenrice)");
+    }
+    private void ResetIngredientSlots()
+    {
+        for (int i = 0; i < ingredientSlots.Length; i++)
+        {
+            ingredientSlots[i].sprite = questionMarkSprite;
+        }
     }
 
 }

@@ -16,7 +16,7 @@ public class 香菇2 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -72,7 +72,7 @@ public class 香菇2 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("香菇2");
+            collectfood_meatballs.Instance.CollectIngredient("香菇2");
             Invoke("LoadNextScene", waitingTime);
             // NextQuestion();
 
@@ -80,7 +80,7 @@ public class 香菇2 : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("香菇2");
+            collectfood_meatballs.Instance.UnCollectIngredient("香菇2");
             Invoke("LoadNextScene", waitingTime);
         }
     }

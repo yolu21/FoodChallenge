@@ -499,7 +499,6 @@ MonoBehaviour:
   TextB: {fileID: 1603944242}
   TextC: {fileID: 666997211}
   TextD: {fileID: 675238510}
-  warning: {fileID: 0}
 --- !u!1 &666997210
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,7 +664,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1965834934}
         m_TargetAssemblyTypeName: ChangeSences, Assembly-CSharp
-        m_MethodName: CloseChoose
+        m_MethodName: CloseQues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1007,7 +1006,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: -159.6}
+  m_AnchoredPosition: {x: -200, y: -220}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &726122770
@@ -1825,6 +1824,8 @@ MonoBehaviour:
   Error: {fileID: 0}
   PassObj: {fileID: 0}
   FailObj: {fileID: 0}
+  RepeatObj: {fileID: 0}
+  ExtraObj: {fileID: 0}
 --- !u!4 &1965834935
 Transform:
   m_ObjectHideFlags: 0

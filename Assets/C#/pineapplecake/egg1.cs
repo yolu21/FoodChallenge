@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;    // 記得加這行
-
+using UnityEngine.SceneManagement;
 public class egg1 : MonoBehaviour
 {
     private List<Question> questions;
@@ -16,7 +16,7 @@ public class egg1 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-
+    float waitingTime = 1f;
 
     private string currentIngredient;
 
@@ -27,13 +27,13 @@ public class egg1 : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "台灣每天大約生產多少顆雞蛋？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "500萬至800萬"},
+                {'B', "1000萬至1500萬"},
+                {'C', "2200萬至2400萬"},
+                {'D', "5000萬至6200萬"}
             },
             'C'));
         questionText.text = questions[0].Content;
@@ -79,7 +79,7 @@ public class egg1 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("egg1");
+            collectfood_pineapplecake.Instance.CollectIngredient("egg1");
             // ReturnToMainScene();
             // NextQuestion();
 
@@ -87,11 +87,16 @@ public class egg1 : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("egg1");
+            collectfood_pineapplecake.Instance.UnCollectIngredient("egg1");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }
-        buttonclose.onClick.AddListener(MyButtonClickclose);
+        Invoke("LoadNextScene", waitingTime);
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene("taiwan(pineapple_cake)");
     }
     // Update is called once per frame
     void ReturnToMainScene()

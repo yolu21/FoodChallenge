@@ -17,7 +17,7 @@ public class 豬肉1 : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,13 +26,13 @@ public class 豬肉1 : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "哪一部位的豬肉通常最嫩？",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "腿肉"},
+                {'B', "肚皮肉"},
+                {'C', "里脊肉"},
+                {'D', "肩肉"}
             },
             'C'));
         questionText.text = questions[0].Content;
@@ -73,7 +73,7 @@ public class 豬肉1 : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("豬肉1");
+            collectfood_meatballs.Instance.CollectIngredient("豬肉1");
             Invoke("LoadNextScene", waitingTime);
             // NextQuestion();
 
@@ -81,7 +81,7 @@ public class 豬肉1 : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("豬肉1");
+            collectfood_meatballs.Instance.UnCollectIngredient("豬肉1");
             Invoke("LoadNextScene", waitingTime);
         }
     }

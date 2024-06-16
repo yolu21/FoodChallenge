@@ -16,7 +16,7 @@ public class rice1chickenrice : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,15 +24,15 @@ public class rice1chickenrice : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "白飯的主要營養作用是什麼",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "提供蛋白質"},
+                {'B', "提供能量"},
+                {'C', "提供纖維素"},
+                {'D', "提供脂肪"}
             },
-            'C'));
+            'B'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -71,14 +71,14 @@ public class rice1chickenrice : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("rice1");
+            collectfood_chickenrice.Instance.CollectIngredient("rice1");
             // NextQuestion();
 
         }
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("rice1");
+            collectfood_chickenrice.Instance.UnCollectIngredient("rice1");
             
         }
         Invoke("LoadNextScene", waitingTime);

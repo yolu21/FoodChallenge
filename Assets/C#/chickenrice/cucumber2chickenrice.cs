@@ -18,7 +18,7 @@ public class cucumber2chickenrice : MonoBehaviour
     public Text TextB;
     public Text TextC;
     public Text TextD;
-    float waitingTime = 2f;
+    float waitingTime = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,15 +27,15 @@ public class cucumber2chickenrice : MonoBehaviour
 
         // 加入問題
         questions.Add(new Question(
-            "Q",
+            "小黃瓜屬於哪個植物家族",
             new Dictionary<char, string>
             {
-                {'A', "A"},
-                {'B', "B"},
-                {'C', "C"},
-                {'D', "D"}
+                {'A', "茄科"},
+                {'B', "瓜類"},
+                {'C', "十字花科"},
+                {'D', "百合科"}
             },
-            'C'));
+            'B'));
         questionText.text = questions[0].Content;
         foreach (var option in questions[0].Options)
         {
@@ -74,14 +74,14 @@ public class cucumber2chickenrice : MonoBehaviour
         if (questions[0].CheckAnswer(selectedOption))
         {
             resultText.text = "答對了！";
-            collectfood.Instance.CollectIngredient("cucumber2");
+            collectfood_chickenrice.Instance.CollectIngredient("cucumber2");
             // NextQuestion();
 
         }
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood.Instance.UnCollectIngredient("cucumber2");
+            collectfood_chickenrice.Instance.UnCollectIngredient("cucumber2");
         }
         Invoke("LoadNextScene", waitingTime);
     }

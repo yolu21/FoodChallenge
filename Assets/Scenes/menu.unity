@@ -169,12 +169,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 40192479}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b4940b40dee89c41bf99cd53b9ba572, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f118d782a09c0544a9f1193a9201776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldMedal: {fileID: 869639263}
-  silverMedal: {fileID: 1439248272}
-  bronzeMedal: {fileID: 1769801953}
+  chickenriceGoldMedal: {fileID: 820585772}
+  chickenriceSilverMedal: {fileID: 2061052036}
+  chickenriceBronzeMedal: {fileID: 2126472288}
+  meatBallsGoldMedal: {fileID: 869639263}
+  meatBallsSilverMedal: {fileID: 1439248272}
+  meatBallsBronzeMedal: {fileID: 1769801953}
+  pineappleCakeGoldMedal: {fileID: 536712402}
+  pineappleCakeSilverMedal: {fileID: 743642324}
+  pineappleCakeBronzeMedal: {fileID: 692775417}
+  scallionPancakeGoldMedal: {fileID: 1400736014}
+  scallionPancakeSilverMedal: {fileID: 446740126}
+  scallionPancakeBronzeMedal: {fileID: 120795837}
 --- !u!1 &120795837
 GameObject:
   m_ObjectHideFlags: 0
