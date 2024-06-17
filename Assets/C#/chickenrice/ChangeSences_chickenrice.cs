@@ -78,7 +78,6 @@ public class ChangeSences_chickenrice : MonoBehaviour
                 }
 
             }
-            
         }
         if (Count == 0 && !MedalManager.chickenriceGamePass)
         {
