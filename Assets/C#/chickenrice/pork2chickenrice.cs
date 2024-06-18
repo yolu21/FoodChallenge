@@ -19,7 +19,7 @@ public class pork2chickenrice : MonoBehaviour
     public Text TextD;
     float waitingTime = 1f;
 
-    private string currentIngredient;
+    //private string currentIngredient;
 
     // Start is called before the first frame update
     void Start()
@@ -81,7 +81,7 @@ public class pork2chickenrice : MonoBehaviour
         else
         {
             resultText.text = $"答錯了，再挑戰其他題吧";
-            collectfood_chickenrice.Instance.UnCollectIngredient("prok2");
+            collectfood_chickenrice.Instance.UnCollectIngredient("pork2");
             // collectfood.Instance.CollectIngredient(currentIngredient);
             // ReturnToMainScene();
         }

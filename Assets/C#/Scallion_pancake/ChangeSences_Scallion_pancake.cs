@@ -34,37 +34,44 @@ public class ChangeSences_Scallion_pancake : MonoBehaviour
         //Error.gameObject.SetActive(false);
 
     }
-
+    int correctnum = 0;
     void UpdateCollectedIngredients()
     {
         List<string> ingredients = collectfood_scallionpancake.Instance.GetCollectedIngredients();
         // collectedIngredientsText.text = "收集到的食材:\n" + string.Join("\n", ingredients);
         List<string> Uningredients = collectfood_scallionpancake.Instance.GetUnCollectedIngredients();
         // UncollectedIngredientsText.text = "沒有收集到的食材:\n" + string.Join("\n", Uningredients);
-        Debug.Log("ingredients123" + ingredients[0]);
+        //Debug.Log(Uningredients[0]);
         // foreach (string ingredient in ingredients)
-        int size = ingredients.Count;
+        
         // foreach (string ingredient in ingredients)
         List<string> newingredients;
+        int size = Uningredients.Count;
+        
+        
 
 
         newingredients = DisplayCollectedIngredient(ingredients);
         collectfood_scallionpancake.Instance.OnIngredientsChanged(newingredients);
+
 
         //Debug.Log("1"+collectfood.Instance.GetCollectedIngredients()[0]);
         //Debug.Log("2"+collectfood.Instance.GetUnCollectedIngredients()[0]);
         int Count = GameObject.transform.childCount;
         foreach (Transform child in GameObject.transform)
         {
-            Debug.Log(123456789);
+
             Button ingredientButton = child.GetComponent<Button>();
-            string ingredientName = child.name.Replace("1", "");
-            string ingredientName2 = child.name.Replace("2", "");
+            
 
             if (ingredientButton != null)
             {
+                string ingredientName = child.name.Replace("1", "");
+                string ingredientName2 = child.name.Replace("2", "");
                 // Debug.Log(ingredientName);
                 // Debug.Log(child.name);
+                GameObject ingredientObject = child.gameObject;
+
                 if (collectfood_scallionpancake.Instance.HasCollected(ingredientName) || collectfood_scallionpancake.Instance.HasCollected(ingredientName2))
                 {
                     ingredientButton.gameObject.SetActive(false);
@@ -73,6 +80,7 @@ public class ChangeSences_Scallion_pancake : MonoBehaviour
 
                 if (collectfood_scallionpancake.Instance.NotHasCollected(ingredientName) || collectfood_scallionpancake.Instance.NotHasCollected(ingredientName2))
                 {
+
                     ingredientButton.gameObject.SetActive(false);
                     Count--;
                 }
@@ -80,6 +88,8 @@ public class ChangeSences_Scallion_pancake : MonoBehaviour
             }
             
         }
+
+        
         if (Count == 0 && !MedalManager.scallionPancakeGamePass)
         {
             Timer.Instance.StopTimer(); // 停止计时器
@@ -87,6 +97,8 @@ public class ChangeSences_Scallion_pancake : MonoBehaviour
             Invoke("HideFailObj", waitingTime);
             CloseChoose();
         }
+        //correctnum= ingredients.Count;
+        correctnum = newingredients.Count;
     }
     public List<string> DisplayCollectedIngredient(List<string> ingredients)
     {
@@ -106,6 +118,7 @@ public class ChangeSences_Scallion_pancake : MonoBehaviour
             {
                 Debug.Log("NO");
                 ingredientsToRemove.Add(ingredient);
+                ExtraObj.SetActive(true);
                 StartCoroutine(ShowAndHideErrorImage());
 
                 ExtraObj.SetActive(true);
@@ -158,6 +171,27 @@ public class ChangeSences_Scallion_pancake : MonoBehaviour
                 
                 Invoke("LoadNextScene", waitingTime);
                 MedalManager.scallionPancakeGamePass = true;
+
+                foreach (Transform child in GameObject.transform)
+                {
+
+                    Button ingredientButton = child.GetComponent<Button>();
+
+
+                    if (ingredientButton != null)
+                    {
+                        GameObject ingredientObject = child.gameObject;
+                        Rigidbody2D rb = ingredientObject.AddComponent<Rigidbody2D>();
+                        rb.velocity = new Vector2(0, -1000f); // 根据需要调整速度
+                        Invoke("DisableIngredientButton", 5f);
+
+                    }
+
+                }
+
+
+
+
                 break; // 已經集滿三個，跳出循環
             }
         }

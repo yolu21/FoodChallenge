@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class StartGame : MonoBehaviour
 {
+    public GameObject instruction;
     // Start is called before the first frame update
     void Start()
     {
-
+        instruction.SetActive(false);
     }
 
     // Update is called once per frame
@@ -47,6 +48,19 @@ public class StartGame : MonoBehaviour
 
         //SceneManager.LoadScene(1);
     }
+    public void CloseChoose2()
+    {
+        SceneManager.LoadScene("cover");
+
+        //SceneManager.LoadScene(1);
+    }
+    public void ShowInstruction()
+    {
+        instruction.SetActive(true);
+
+        //SceneManager.LoadScene(1);
+    }
+
     public void meatballsQues()
     {
         if (MedalManager.meatBallsGamePass)

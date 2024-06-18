@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{71E99D55-B8FE-1603-16C9-3F15BF85A0AA}</ProjectGuid>
+    <ProjectGuid>{4745A9C0-E681-A22F-6EA6-7BE7D75511C1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\C#\chickenrice\ChangeSences_chickenrice.cs" />
     <Compile Include="Assets\C#\Scallion_pancake\pork1Scallion_pancake.cs" />
+    <Compile Include="Assets\C#\collectfood_scallionpancake.cs" />
     <Compile Include="Assets\C#\pineapplecake\ChangeSences1_pineapple_cake.cs" />
     <Compile Include="Assets\C#\meatballs\豬肉2.cs" />
     <Compile Include="Assets\C#\MusicController.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Assets\C#\Scallion_pancake\pork2Scallion_pancake.cs" />
     <Compile Include="Assets\C#\ShowMedal.cs" />
     <Compile Include="Assets\C#\meatballs\蔥1.cs" />
+    <Compile Include="Assets\C#\collectfood_meatballs.cs" />
     <Compile Include="Assets\C#\Scallion_pancake\flour1Scallion_pancake.cs" />
     <Compile Include="Assets\UnityTechnologies\ParticlePack\Shared\Ramps\Runtime\RampAsset.cs" />
     <Compile Include="Assets\C#\pineapplecake\egg2.cs" />
@@ -81,17 +83,16 @@
     <Compile Include="Assets\C#\Timer.cs" />
     <Compile Include="Assets\UnityTechnologies\ParticlePack\Shared\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\C#\meatballs\黃瓜1.cs" />
-    <Compile Include="Assets\C#\Scallion_pancake\Scallion_pancakeShowMedal.cs" />
     <Compile Include="Assets\C#\meatballs\香菇1.cs" />
     <Compile Include="Assets\C#\meatballs\ChangeSences.cs" />
     <Compile Include="Assets\C#\pineapplecake\pineapple1.cs" />
     <Compile Include="Assets\C#\chickenrice\chicken1chickenrice.cs" />
     <Compile Include="Assets\C#\chickenrice\cucumber1chickenrice.cs" />
-    <Compile Include="Assets\C#\DisplayMedal.cs" />
     <Compile Include="Assets\C#\meatballs\蔥2.cs" />
     <Compile Include="Assets\C#\meatballs\黃瓜2.cs" />
     <Compile Include="Assets\C#\SceneLoaderManager.cs" />
     <Compile Include="Assets\UnityTechnologies\ParticlePack\Shared\Scripts\SimpleCharacterMotor.cs" />
+    <Compile Include="Assets\C#\collectfood_pineapplecake.cs" />
     <Compile Include="Assets\C#\Scallion_pancake\ChangeSences_Scallion_pancake.cs" />
     <Compile Include="Assets\C#\meatballs\豬肉1.cs" />
     <Compile Include="Assets\C#\pineapplecake\green_onion2.cs" />
@@ -102,17 +103,15 @@
     <Compile Include="Assets\C#\pineapplecake\egg1.cs" />
     <Compile Include="Assets\UnityTechnologies\ParticlePack\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\C#\pineapplecake\pineapple2.cs" />
-    <Compile Include="Assets\C#\chickenrice\chickenriceShowMedal.cs" />
     <Compile Include="Assets\C#\chickenrice\green_onion1chickenrice.cs" />
     <Compile Include="Assets\C#\Scallion_pancake\Scallion_pancakeTimer.cs" />
     <Compile Include="Assets\C#\Scallion_pancake\flour2Scallion_pancake.cs" />
-    <Compile Include="Assets\C#\pineapplecake\pineapplecakeShowMedal.cs" />
     <Compile Include="Assets\UnityTechnologies\ParticlePack\Shared\Scripts\AdjustTimeScale.cs" />
     <Compile Include="Assets\C#\collectfood_chickenrice.cs" />
+    <Compile Include="Assets\C#\Sway.cs" />
     <Compile Include="Assets\C#\meatballs\香菇2.cs" />
     <Compile Include="Assets\C#\chickenrice\rice2chickenrice.cs" />
     <Compile Include="Assets\C#\NewBehaviourScript.cs" />
-    <Compile Include="Assets\C#\meatballs\meatballsShowMedal.cs" />
     <Compile Include="Assets\C#\Scallion_pancake\butter1Scallion_pancake.cs" />
     <Compile Include="Assets\C#\pineapplecake\butter2.cs" />
     <Compile Include="Assets\C#\Scallion_pancake\egg1Scallion_pancake.cs" />
@@ -124,9 +123,7 @@
     <Compile Include="Assets\C#\MedalManager.cs" />
     <Compile Include="Assets\C#\meatballs\竹筍1.cs" />
     <Compile Include="Assets\C#\chickenrice\chickenriceTimer.cs" />
-    <Compile Include="Assets\C#\collectfood_scallionpancake.cs" />
-    <Compile Include="Assets\C#\collectfood_pineapplecake.cs" />
-    <Compile Include="Assets\C#\collectfood_meatballs.cs" />
+    <Compile Include="Assets\C#\collectfood.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro 1\Shaders\TMP_SDF.shader" />
